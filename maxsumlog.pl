@@ -5,7 +5,7 @@ use warnings;
 use File::Basename qw(dirname);
 use Cwd qw(abs_path);
 use lib ( dirname abs_path $0) . '/lib';
-use MaxSumUtil qw(print_solution create_random_array);
+use MaxSumUtil qw(print_solution create_random_array read_input_array);
 use Math::Round;
 
 # O(n)
@@ -86,6 +86,7 @@ sub find_max_sub_array {
 }
 
 #my @i = create_random_array(10000);
-my @i = ( 13, -3, -25, 20, -3, -16, -23, 18, 20, -7, 12, -5, -22, 15, -4, 7 );
+#my @i = ( 13, -3, -25, 20, -3, -16, -23, 18, 20, -7, 12, -5, -22, 15, -4, 7 );
+my @i = read_input_array;
 my @result = find_max_sub_array(\@i);
 print_solution @result;

@@ -6,23 +6,20 @@ use warnings;
 use File::Basename qw(dirname);
 use Cwd qw(abs_path);
 use lib ( dirname abs_path $0) . '/lib';
-use MaxSumUtil qw(print_solution create_random_array);
+use MaxSumUtil qw(print_solution create_random_array read_input_array);
 
 sub max_solution {
     my $sum     = shift;
     my $init    = shift;
     my $end     = shift;
-    my $maxSum  = shift;
-    my $maxInit = shift;
-    my $maxEnd  = shift;
+    my $max_ref = shift;
+    my @max = @{$max_ref};
 
-    if ( $sum > $maxSum ) {
-        $maxSum  = $sum;
-        $maxInit = $init;
-        $maxEnd  = $end;
+    if ( $sum > $max[2] ) {
+        return ($init, $end, $sum);
     }
 
-    return ( $maxSum, $maxInit, $maxEnd );
+    return @max;
 }
 
 sub find_max_sub_array {
@@ -34,13 +31,13 @@ sub find_max_sub_array {
 
         foreach my $end ( $init .. $#i ) {
             $sum += $i[$end];
-            @solution = max_solution( $sum, $init, $end, @solution );
+            @solution = max_solution( $sum, $init, $end, \@solution );
         }
     }
 
     return @solution;
 }
 
-my @i = ( 13, -3, -25, 20, -3, -16, -23, 18, 20, -7, 12, -5, -22, 15, -4, 7 );
+my @i = read_input_array;
 my @solution = find_max_sub_array( \@i );
 print_solution @solution;
