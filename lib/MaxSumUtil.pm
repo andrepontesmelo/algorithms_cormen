@@ -14,7 +14,7 @@ sub print_solution {
 
 sub create_random_array {
   my $elements = shift;
-  return map { rand } ( 1..$elements );
+  return map { int(100_000_000 * rand) - 50_000_000 } ( 1..$elements );
 }
 
 sub read_input_array {
