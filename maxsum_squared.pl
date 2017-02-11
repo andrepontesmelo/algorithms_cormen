@@ -38,6 +38,6 @@ sub find_max_sub_array {
     return @solution;
 }
 
-my @i = read_input_array;
+my @i = @ARGV;
 my @solution = find_max_sub_array( \@i );
 print_solution @solution;
