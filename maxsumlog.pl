@@ -5,7 +5,7 @@ use warnings;
 use File::Basename qw(dirname);
 use Cwd qw(abs_path);
 use lib ( dirname abs_path $0) . '/lib';
-use MaxSumUtil qw(print_solution);
+use MaxSumUtil qw(print_solution create_random_array);
 use Math::Round;
 
 # O(n)
@@ -42,7 +42,7 @@ sub find_max_crossing_sub_array {
 }
 
 # O(n*log(n))
-sub find_max_sub_array {
+sub find_max_sub_array_rec {
     my $a_ref = shift;
     my $low   = shift;
     my $high  = shift;
@@ -53,8 +53,8 @@ sub find_max_sub_array {
     }
     else {
         my $mid = int( ( $low + $high ) / 2 );
-        my @solution_left  = find_max_sub_array( \@a, $low,     $mid );
-        my @solution_right = find_max_sub_array( \@a, $mid + 1, $high );
+        my @solution_left  = find_max_sub_array_rec( \@a, $low,     $mid );
+        my @solution_right = find_max_sub_array_rec( \@a, $mid + 1, $high );
         my @solution_cross = find_max_crossing_sub_array( \@a, $low, $mid, $high );
         my $left_low   = $solution_left[0];
         my $left_high  = $solution_left[1];
@@ -79,6 +79,13 @@ sub find_max_sub_array {
     }
 }
 
+sub find_max_sub_array {
+  my $i_ref = shift;
+  my @i = @{$i_ref};
+  return find_max_sub_array_rec($i_ref, 0, $#i);
+}
+
+#my @i = create_random_array(10000);
 my @i = ( 13, -3, -25, 20, -3, -16, -23, 18, 20, -7, 12, -5, -22, 15, -4, 7 );
-my @result = find_max_sub_array( \@i, 0, $#i );
+my @result = find_max_sub_array(\@i);
 print_solution @result;
